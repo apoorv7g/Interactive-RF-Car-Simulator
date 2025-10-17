@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+@plugin "daisyui" {
+  themes: lofi --default;
+  root: ":root";
+  include: ;
+  exclude: ;
+  prefix: ;
+  logs: true;
+}

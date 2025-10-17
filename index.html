@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="lofi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive RL Car Simulator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+
+<body class="font-mono">
+    <!-- Header -->
+    <header class="py-24">
+        <div class="max-w-6xl mx-auto px-6 text-center text-black">
+            <h1 class="text-6xl font-bold mb-6">Interactive RL Car Simulator</h1>
+            <p class="text-lg opacity-90 mb-3">
+                Explore reinforcement learning concepts by creating environments and observing AI agents learn in real
+                time
+            </p>
+            <p class="text-base opacity-80">
+                Adjust routes, see rewards, and understand how an agent improves through trial and error
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-6 py-6">
+        <!-- Problem Section -->
+        <section class="mb-16">
+            <div class="card bg-base-100 shadow-lg">
+                <div class="card-body">
+                    <div class="flex items-center gap-4 mb-4">
+                        <h2 class="card-title text-4xl text-primary">The Challenge</h2>
+                    </div>
+                    <p class="text-base-content/80 leading-relaxed text-lg">
+                        Reinforcement learning underlies intelligent systems such as autonomous vehicles and game AI.
+                        Understanding its trial-and-error learning process is difficult without visualization. This
+                        simulator bridges that gap by showing behavior as it emerges.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Objective -->
+        <section class="mb-16">
+            <div class="card bg-base-100 shadow-lg">
+                <div class="card-body">
+                    <div class="flex items-center gap-4 mb-4">
+                        <h2 class="card-title text-4xl text-primary">Our Objective</h2>
+                    </div>
+                    <p class="text-base-content/80 leading-relaxed text-lg">
+                        Enable users to build custom grid maps, train AI agents, and see reinforcement learning
+                        principles applied in real time.
+                    </p>
+                    <p class="mt-6 text-base-content/70 text-lg leading-relaxed">
+                        Learn how states, actions, rewards, and policies interact while watching the AI optimize its
+                        behavior.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section class="mb-16">
+            <div class="card bg-base-100 shadow-lg">
+                <div class="card-body">
+                    <div class="flex items-center gap-4 mb-8">
+                        <h2 class="card-title text-4xl text-primary">How It Works</h2>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="flex gap-6 items-start">
+                            <div
+                                class="badge badge-lg badge-primary text-base-100 text-xl font-bold w-12 h-12 flex items-center justify-center flex-shrink-0">
+                                1</div>
+                            <div class="text-left">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <h3 class="font-semibold text-xl">Design Your Map</h3>
+                                </div>
+                                <p class="text-base-content/70 leading-relaxed">Place obstacles, start, goal, and paths
+                                    to build a challenging environment for the agent.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-6 items-start">
+                            <div
+                                class="badge badge-lg badge-secondary text-base-100 text-xl font-bold w-12 h-12 flex items-center justify-center flex-shrink-0">
+                                2</div>
+                            <div class="text-left">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <h3 class="font-semibold text-xl">Train the Agent</h3>
+                                </div>
+                                <p class="text-base-content/70 leading-relaxed">A Q-learning agent selects actions,
+                                    receives rewards, and updates its knowledge over episodes.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-6 items-start">
+                            <div
+                                class="badge badge-lg badge-accent text-base-100 text-xl font-bold w-12 h-12 flex items-center justify-center flex-shrink-0">
+                                3</div>
+                            <div class="text-left">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <h3 class="font-semibold text-xl">Observe Learning</h3>
+                                </div>
+                                <p class="text-base-content/70 leading-relaxed">Watch how the agent explores, avoids
+                                    obstacles, and eventually discovers the optimal path to the goal.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Code Versions Section -->
+        <section class="mb-16">
+            <div class="card bg-base-100 shadow-lg">
+                <div class="card-body">
+                    <div class="flex items-center gap-4 mb-6">
+                        <span class="material-icons text-4xl text-primary">code</span>
+                        <h2 class="card-title text-4xl text-primary">Code Evolution: Three Progressive Versions</h2>
+                    </div>
+
+                    <!-- Version 1 -->
+                    <div class="collapse collapse-arrow bg-base-200 border border-base-300 mb-4">
+                        <input type="radio" name="code-version" checked="checked" />
+                        <div class="collapse-title text-xl font-medium text-primary flex items-center gap-2">
+                            <span class="material-icons">play_circle</span>
+                            Version 1: Basic Q-Learning Implementation
+                        </div>
+                        <div class="collapse-content">
+                            <div class="space-y-4">
+                                <h3 class="font-semibold text-lg flex items-center gap-2">
+                                    <span class="material-icons text-sm">settings</span>
+                                    Core Components
+                                </h3>
+                                <div class="bg-base-300 p-4 rounded-lg">
+                                    <pre class="text-sm overflow-x-auto"># Grid configuration
+SCREEN_W, SCREEN_H = 1000, 600
+CELL = 20
+COLS = SCREEN_W // CELL
+ROWS = SCREEN_H // CELL
+
+# Grid values for different cell types
+VAL_EMPTY = 0    # Navigable space
+VAL_OBST = 1     # Obstacles (terminates episode)
+VAL_PATH = 2     # Valid movement paths
+VAL_START = 3    # Starting position
+VAL_GOAL = 4     # Target destination</pre>
+                                </div>
+
+                                <div class="alert alert-info">
+                                    <span class="material-icons">info</span>
+                                    <div>
+                                        <h4 class="font-bold">Learning Process</h4>
+                                        <p>The agent starts with no knowledge (Q-table initialized to zeros). Through
+                                            trial and error, it explores the environment, receives rewards, and updates
+                                            Q-values using temporal difference learning.</p>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="stats shadow bg-base-100">
+                                        <div class="stat">
+                                            <div class="stat-title">States</div>
+                                            <div class="stat-value text-primary">ROWS × COLS</div>
+                                            <div class="stat-desc">Each grid cell is a unique state</div>
+                                        </div>
+                                    </div>
+                                    <div class="stats shadow bg-base-100">
+                                        <div class="stat">
+                                            <div class="stat-title">Actions</div>
+                                            <div class="stat-value text-secondary">4</div>
+                                            <div class="stat-desc">Up, Down, Left, Right</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Version 2 -->
+                    <div class="collapse collapse-arrow bg-base-200 border border-base-300 mb-4">
+                        <input type="radio" name="code-version" />
+                        <div class="collapse-title text-xl font-medium text-secondary flex items-center gap-2">
+                            <span class="material-icons">trending_up</span>
+                            Version 2: Enhanced with Curiosity-Driven Exploration
+                        </div>
+                        <div class="collapse-content">
+                            <div class="space-y-4">
+                                <h3 class="font-semibold text-lg flex items-center gap-2">
+                                    <span class="material-icons text-sm">lightbulb</span>
+                                    Major Improvements
+                                </h3>
+
+                                <div class="bg-base-300 p-4 rounded-lg">
+                                    <pre class="text-sm overflow-x-auto"># Curiosity mechanism
+visit_counts = np.zeros(n_states, dtype=np.int32)
+beta = 0.1  # Curiosity scaling factor
+
+# In train_step():
+intrinsic_r = beta / np.sqrt(max(visit_counts[next_state_idx], 1))
+total_r = r + intrinsic_r</pre>
+                                </div>
+
+                                <div class="alert alert-success">
+                                    <span class="material-icons">check_circle</span>
+                                    <div>
+                                        <h4 class="font-bold">How Curiosity Helps</h4>
+                                        <p>Visit counts track how often each state is visited. Higher intrinsic rewards
+                                            for less-visited states reduce repetitive behavior and encourage
+                                            comprehensive exploration.</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-wrap gap-2">
+                                    <div class="badge badge-success">Faster Convergence</div>
+                                    <div class="badge badge-success">Better Exploration</div>
+                                    <div class="badge badge-success">Reduced Repetition</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Version 3 -->
+                    <div class="collapse collapse-arrow bg-base-200 border border-base-300">
+                        <input type="radio" name="code-version" />
+                        <div class="collapse-title text-xl font-medium text-accent flex items-center gap-2">
+                            <span class="material-icons">star</span>
+                            Version 3: Advanced with Performance Metrics & Optimized Learning
+                        </div>
+                        <div class="collapse-content">
+                            <div class="space-y-4">
+                                <h3 class="font-semibold text-lg flex items-center gap-2">
+                                    <span class="material-icons text-sm">rocket_launch</span>
+                                    Significant Enhancements
+                                </h3>
+
+                                <div class="bg-base-300 p-4 rounded-lg">
+                                    <pre class="text-sm overflow-x-auto">def compute_dist_to_goal(grid, goal):
+    # Uses BFS to compute shortest path distances
+    dist = np.full((ROWS, COLS), -1, dtype=int)
+    dist[goal] = 0
+    q = deque([goal])
+    # ... BFS implementation</pre>
+                                </div>
+
+                                <div class="alert alert-warning">
+                                    <span class="material-icons">assessment</span>
+                                    <div>
+                                        <h4 class="font-bold">Visualization Features</h4>
+                                        <p>Real-time statistics display including reward progression graphs, step count
+                                            trends, success rate indicators, and performance metrics dashboard.</p>
+                                    </div>
+                                </div>
+
+                                <div class="overflow-x-auto">
+                                    <table class="table table-zebra w-full">
+                                        <thead>
+                                            <tr>
+                                                <th>Parameter</th>
+                                                <th>Version 1</th>
+                                                <th>Version 2</th>
+                                                <th>Version 3</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Learning Rate (α)</td>
+                                                <td>0.6</td>
+                                                <td>0.6</td>
+                                                <td>0.1</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Curiosity (β)</td>
+                                                <td>N/A</td>
+                                                <td>0.1</td>
+                                                <td>0.5</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Epsilon Decay</td>
+                                                <td>0.995</td>
+                                                <td>0.995</td>
+                                                <td>0.999</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Learning Concepts -->
+        <section class="mb-16">
+            <div class="card bg-base-100 shadow-lg">
+                <div class="card-body">
+                    <div class="flex items-center gap-4 mb-6">
+                        <span class="material-icons text-4xl text-primary">library_books</span>
+                        <h2 class="card-title text-4xl text-primary">Key Reinforcement Learning Concepts</h2>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="text-base-content/80 leading-relaxed flex items-start gap-3">
+                            <div>
+                                <span class="font-bold text-primary">State:</span> The car's current position and map
+                                layout
+                                define the state.
+                            </div>
+                        </li>
+                        <li class="text-base-content/80 leading-relaxed flex items-start gap-3">
+                            <div>
+                                <span class="font-bold text-info">Action:</span> Moves the agent can take: up, down,
+                                left, or right.
+                            </div>
+                        </li>
+                        <li class="text-base-content/80 leading-relaxed flex items-start gap-3">
+                            <div>
+                                <span class="font-bold text-success">Reward:</span> Positive for reaching goals,
+                                negative
+                                for collisions or invalid moves.
+                            </div>
+                        </li>
+                        <li class="text-base-content/80 leading-relaxed flex items-start gap-3">
+                            <div>
+                                <span class="font-bold text-warning">Exploration vs Exploitation:</span> Balancing
+                                trying
+                                new moves with using known successful actions.
+                            </div>
+                        </li>
+                        <li class="text-base-content/80 leading-relaxed flex items-start gap-3">
+                            <div>
+                                <span class="font-bold text-accent">Q-Table:</span> A table mapping state-action pairs
+                                to
+                                expected cumulative rewards.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Q-learning Equation -->
+        <!-- <section class="mb-16">
+            <div class="card bg-base-100 shadow-lg">
+                <div class="card-body">
+                    <div class="flex items-center gap-4 mb-6">
+                        <span class="material-icons text-4xl text-primary">functions</span>
+                        <h2 class="card-title text-4xl text-primary">Understanding the Q-Learning Equation</h2>
+                    </div>
+                    <p class="text-base-content/80 leading-relaxed text-lg mb-6">
+                        The Q-learning update formula is:
+                    </p>
+                    <div
+                        class="bg-gradient-to-r from-primary/20 to-secondary/20 p-6 rounded-lg text-lg overflow-x-auto mb-8 border border-primary/30">
+                        <pre
+                            class="text-primary font-bold">Q(s, a) ← Q(s, a) + α [ r + γ max(Q(s′, a′)) − Q(s, a) ]</pre>
+                    </div>
+                    <div class="space-y-3 text-base-content/70 text-lg">
+                        <p><span class="font-bold text-info badge badge-outline">s</span> current state of the agent</p>
+                        <p><span class="font-bold text-info badge badge-outline">a</span> action taken in state s</p>
+                        <p><span class="font-bold text-info badge badge-outline">Q(s, a)</span> estimated value of
+                            taking action a from state s</p>
+                        <p><span class="font-bold text-info badge badge-outline">α</span> learning rate, controls how
+                            much new information overrides old knowledge</p>
+                        <p><span class="font-bold text-info badge badge-outline">r</span> immediate reward received
+                            after taking action a</p>
+                        <p><span class="font-bold text-info badge badge-outline">γ</span> discount factor, determines
+                            importance of future rewards</p>
+                        <p><span class="font-bold text-info badge badge-outline">max(Q(s′, a′))</span> best expected
+                            future reward from next state s′</p>
+                    </div>
+                    <p class="text-base-content/70 mt-8 text-lg leading-relaxed flex items-start gap-2">
+                        <span class="material-icons text-success flex-shrink-0">info</span>
+                        This update rule iteratively refines the Q-table so the agent can approximate the optimal action
+                        policy.
+                    </p>
+                </div>
+            </div>
+        </section> -->
+        <section class="mb-16">
+            <div class="card bg-base-100 shadow-xl border border-base-300">
+                <div class="card-body">
+                    <!-- Header with Icon -->
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="bg-gradient-to-br from-primary to-secondary p-3 rounded-2xl">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="card-title text-3xl md:text-4xl text-primary mb-2">Understanding the Q-Learning
+                                Equation</h2>
+                            <p class="text-base-content/60 text-sm">The mathematical foundation of reinforcement
+                                learning</p>
+                        </div>
+                    </div>
+
+                    <!-- Main Equation -->
+                    <div class="text-center mb-10">
+                        <p class="text-base-content/80 text-lg mb-4 font-medium">The Q-learning update formula:</p>
+                        <div
+                            class="bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 p-8 rounded-2xl border border-primary/20 shadow-inner">
+                            <div class="font-mono text-2xl md:text-3xl font-bold text-primary text-center">
+                                Q(s,a) ← Q(s,a) + α[r + γmax(Q(s′,a′)) − Q(s,a)]
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Variables Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                        <div
+                            class="flex items-center gap-3 p-4 bg-base-200 rounded-xl hover:bg-base-300 transition-colors">
+                            <div class="badge badge-primary badge-lg p-3 font-mono">s</div>
+                            <div>
+                                <p class="font-semibold text-base-content">Current State</p>
+                                <p class="text-sm text-base-content/60">Agent's current position and environment</p>
+                            </div>
+                        </div>
+
+                        <div
+                            class="flex items-center gap-3 p-4 bg-base-200 rounded-xl hover:bg-base-300 transition-colors">
+                            <div class="badge badge-secondary badge-lg p-3 font-mono">a</div>
+                            <div>
+                                <p class="font-semibold text-base-content">Action</p>
+                                <p class="text-sm text-base-content/60">Move taken by the agent (up, down, left, right)
+                                </p>
+                            </div>
+                        </div>
+
+                        <div
+                            class="flex items-center gap-3 p-4 bg-base-200 rounded-xl hover:bg-base-300 transition-colors">
+                            <div class="badge badge-accent badge-lg p-3 font-mono">Q(s,a)</div>
+                            <div>
+                                <p class="font-semibold text-base-content">Q-Value</p>
+                                <p class="text-sm text-base-content/60">Expected cumulative reward for action a in state
+                                    s</p>
+                            </div>
+                        </div>
+
+                        <div
+                            class="flex items-center gap-3 p-4 bg-base-200 rounded-xl hover:bg-base-300 transition-colors">
+                            <div class="badge badge-info badge-lg p-3 font-mono">α</div>
+                            <div>
+                                <p class="font-semibold text-base-content">Learning Rate</p>
+                                <p class="text-sm text-base-content/60">Controls how much new information overrides old
+                                    knowledge</p>
+                            </div>
+                        </div>
+
+                        <div
+                            class="flex items-center gap-3 p-4 bg-base-200 rounded-xl hover:bg-base-300 transition-colors">
+                            <div class="badge badge-success badge-lg p-3 font-mono">r</div>
+                            <div>
+                                <p class="font-semibold text-base-content">Reward</p>
+                                <p class="text-sm text-base-content/60">Immediate reward received after taking action
+                                </p>
+                            </div>
+                        </div>
+
+                        <div
+                            class="flex items-center gap-3 p-4 bg-base-200 rounded-xl hover:bg-base-300 transition-colors">
+                            <div class="badge badge-warning badge-lg p-3 font-mono">γ</div>
+                            <div>
+                                <p class="font-semibold text-base-content">Discount Factor</p>
+                                <p class="text-sm text-base-content/60">Determines importance of future rewards (0-1)
+                                </p>
+                            </div>
+                        </div>
+
+                        <div
+                            class="flex items-center gap-3 p-4 bg-base-200 rounded-xl hover:bg-base-300 transition-colors md:col-span-2">
+                            <div class="badge badge-error badge-lg p-3 font-mono text-xs">max(Q(s′,a′))</div>
+                            <div>
+                                <p class="font-semibold text-base-content">Maximum Future Reward</p>
+                                <p class="text-sm text-base-content/60">Best expected future reward from next state s′
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Info Box -->
+                    <div class="alert alert-success shadow-lg">
+                        <div class="flex items-start gap-3">
+                            <svg class="w-6 h-6 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <div>
+                                <h3 class="font-bold">How It Works</h3>
+                                <p class="text-sm">This update rule iteratively refines the Q-table, allowing the agent
+                                    to approximate the optimal action policy through repeated trial and error.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Example Toggle -->
+                    <div class="collapse collapse-arrow bg-base-200 mt-4">
+                        <input type="checkbox" />
+                        <div class="collapse-title font-semibold text-lg">
+                            🎯 See Practical Example
+                        </div>
+                        <div class="collapse-content">
+                            <div class="space-y-3 text-sm">
+                                <p><strong>Example Scenario:</strong> Agent moves from state s to s′</p>
+                                <div class="bg-base-300 p-4 rounded-lg font-mono text-xs">
+                                    Q(s,a) = 0.5, α = 0.1, r = -1, γ = 0.9, max(Q(s′,a′)) = 0.8<br>
+                                    Update: 0.5 + 0.1 × [-1 + 0.9×0.8 - 0.5] = 0.5 + 0.1×[-0.18] = 0.482
+                                </div>
+                                <p class="text-base-content/60">The Q-value slightly decreases because the immediate
+                                    reward was negative and future prospects weren't promising enough.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Progressive Evolution Summary -->
+        <section class="mb-16">
+            <div class="card bg-base-100 shadow-lg">
+                <div class="card-body">
+                    <div class="flex items-center gap-4 mb-6">
+                        <span class="material-icons text-4xl text-primary">timeline</span>
+                        <h2 class="card-title text-4xl text-primary">Progressive Evolution Summary</h2>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="table table-zebra w-full bg-base-100">
+                            <thead>
+                                <tr class="bg-base-200">
+                                    <th>Feature</th>
+                                    <th>Version 1</th>
+                                    <th>Version 2</th>
+                                    <th>Version 3</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="font-bold">Core Algorithm</span></td>
+                                    <td><span class="badge badge-sm">Basic Q-learning</span></td>
+                                    <td><span class="badge badge-sm badge-info">Q-learning + curiosity</span></td>
+                                    <td><span class="badge badge-sm badge-accent">Enhanced Q-learning + curiosity</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="font-bold">Exploration</span></td>
+                                    <td><span class="badge badge-sm">Epsilon-greedy</span></td>
+                                    <td><span class="badge badge-sm badge-info">Curiosity-driven</span></td>
+                                    <td><span class="badge badge-sm badge-accent">Optimized curiosity</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="font-bold">Reward Shaping</span></td>
+                                    <td><span class="badge badge-sm">Manhattan distance</span></td>
+                                    <td><span class="badge badge-sm badge-info">Potential-based</span></td>
+                                    <td><span class="badge badge-sm badge-accent">Graph-distance based</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="font-bold">Performance Tracking</span></td>
+                                    <td><span class="badge badge-sm">Basic episode count</span></td>
+                                    <td>—</td>
+                                    <td><span class="badge badge-sm badge-accent">Comprehensive metrics</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="font-bold">Visualization</span></td>
+                                    <td><span class="badge badge-sm">Q-value arrows</span></td>
+                                    <td><span class="badge badge-sm badge-info">Q-value arrows</span></td>
+                                    <td><span class="badge badge-sm badge-accent">Full statistics dashboard</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="font-bold">Stability</span></td>
+                                    <td><span class="badge badge-sm">Standard parameters</span></td>
+                                    <td><span class="badge badge-sm badge-info">Improved exploration</span></td>
+                                    <td><span class="badge badge-sm badge-accent">Optimized hyperparameters</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="mt-8 p-6 bg-primary/10 rounded-lg border border-primary/30">
+                        <h3 class="text-xl font-bold text-primary mb-4 flex items-center gap-2">
+                            <span class="material-icons">school</span>
+                            Educational Value
+                        </h3>
+                        <div class="space-y-3">
+                            <p><span class="font-bold text-primary">Version 1:</span> Foundation - states, actions,
+                                rewards, Q-learning basics</p>
+                            <p><span class="font-bold text-secondary">Version 2:</span> Advanced exploration - intrinsic
+                                motivation, reward shaping</p>
+                            <p><span class="font-bold text-accent">Version 3:</span> Professional practices -
+                                performance monitoring, parameter tuning, visualization</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Download Section -->
+        <!-- <section>
+            <div class="divider text-lg font-bold text-primary">
+                Get Started
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="card bg-base-100 shadow-lg card-hover border border-primary/20 hover:border-primary/60">
+                    <div class="card-body text-center">
+                        <div class="text-5xl mb-4 flex justify-center">
+                            <span class="material-icons text-6xl text-primary">directions_car</span>
+                        </div>
+                        <h3 class="card-title justify-center text-xl text-primary">Core Simulator</h3>
+                        <p class="text-base-content/70 text-sm my-4">
+                            Python program with Q-learning, curiosity rewards, and live visualization
+                        </p>
+                        <button class="btn btn-primary btn-sm">
+                            <span class="material-icons text-sm">download</span>
+                            Download
+                        </button>
+                    </div>
+                </div>
+                <div class="card bg-base-100 shadow-lg card-hover border border-secondary/20 hover:border-secondary/60">
+                    <div class="card-body text-center">
+                        <div class="text-5xl mb-4 flex justify-center">
+                            <span class="material-icons text-6xl text-secondary">tune</span>
+                        </div>
+                        <h3 class="card-title justify-center text-xl text-secondary">Configuration</h3>
+                        <p class="text-base-content/70 text-sm my-4">
+                            Adjust map size, learning rate, exploration, and discount factor
+                        </p>
+                        <button class="btn btn-secondary btn-sm">
+                            <span class="material-icons text-sm">download</span>
+                            Download
+                        </button>
+                    </div>
+                </div>
+                <div class="card bg-base-100 shadow-lg card-hover border border-accent/20 hover:border-accent/60">
+                    <div class="card-body text-center">
+                        <div class="text-5xl mb-4 flex justify-center">
+                            <span class="material-icons text-6xl text-accent">description</span>
+                        </div>
+                        <h3 class="card-title justify-center text-xl text-accent">Documentation</h3>
+                        <p class="text-base-content/70 text-sm my-4">
+                            Complete guide with setup instructions and detailed explanations
+                        </p>
+                        <button class="btn btn-accent btn-sm">
+                            <span class="material-icons text-sm">download</span>
+                            Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section> -->
+        <!-- Download Section -->
+        <div class="container mx-auto px-4 py-12">
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-center text-base-content mb-2">Download & Explore All Versions</h2>
+                <p class="text-center text-base-content/70 mb-8">Choose the version that fits your needs</p>
+
+                <!-- Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Version 1 -->
+                    <div
+                        class="card bg-base-100 shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-primary hover:border-primary/80 overflow-hidden h-full flex flex-col">
+                        <!-- Header Section -->
+                        <div class="bg-primary/5 px-6 py-4 border-b border-primary/20">
+                            <div class="flex justify-between items-center mb-3">
+                                <h3 class="text-lg font-bold text-primary">Version 1</h3>
+                                <div class="badge badge-primary badge-lg font-mono font-bold">v1.0</div>
+                            </div>
+                            <div class="flex justify-center mb-2">
+                                <div class="p-3 bg-primary/10 rounded-lg">
+                                    <span class="material-icons text-3xl text-primary">play_arrow</span>
+                                </div>
+                            </div>
+                            <p class="text-center font-semibold text-primary">Core Q-Learning</p>
+                        </div>
+
+                        <!-- Content Section -->
+                        <div class="px-6 py-4 flex-grow">
+                            <p class="text-sm text-base-content/70 mb-4 text-center leading-relaxed">
+                                Basic Q-learning implementation with grid navigation, obstacle avoidance, and real-time
+                                visualization.
+                            </p>
+
+                            <!-- Features List -->
+                            <div class="space-y-2 mb-4">
+                                <div class="flex items-center gap-2 text-xs text-base-content/70">
+                                    <span class="material-icons text-xs text-success">check_circle</span>
+                                    <span>Basic Q-learning algorithm</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-xs text-base-content/70">
+                                    <span class="material-icons text-xs text-success">check_circle</span>
+                                    <span>Grid environment with obstacles</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-xs text-base-content/70">
+                                    <span class="material-icons text-xs text-success">check_circle</span>
+                                    <span>Real-time Q-value visualization</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-xs text-base-content/70">
+                                    <span class="material-icons text-xs text-success">check_circle</span>
+                                    <span>Epsilon-greedy exploration</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer Section -->
+                        <div class="border-t border-base-300 px-6 py-4">
+                            <button class="w-full btn btn-primary btn-sm mb-2">
+                                <span class="material-icons text-sm">download</span>
+                                Download
+                            </button>
+                            <p class="text-xs text-base-content/50 text-center">Python • 128KB</p>
+                        </div>
+                    </div>
+
+                    <!-- Version 2 -->
+                    <div
+                        class="card bg-base-100 shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-secondary hover:border-secondary/80 overflow-hidden h-full flex flex-col">
+                        <!-- Header Section -->
+                        <div class="bg-secondary/5 px-6 py-4 border-b border-secondary/20">
+                            <div class="flex justify-between items-center mb-3">
+                                <h3 class="text-lg font-bold text-secondary">Version 2</h3>
+                                <div class="badge badge-secondary badge-lg font-mono font-bold">v2.0</div>
+                            </div>
+                            <div class="flex justify-center mb-2">
+                                <div class="p-3 bg-secondary/10 rounded-lg">
+                                    <span class="material-icons text-3xl text-secondary">explore</span>
+                                </div>
+                            </div>
+                            <p class="text-center font-semibold text-secondary">Enhanced Exploration</p>
+                        </div>
+
+                        <!-- Content Section -->
+                        <div class="px-6 py-4 flex-grow">
+                            <p class="text-sm text-base-content/70 mb-4 text-center leading-relaxed">
+                                Adds curiosity-driven exploration and reward shaping for faster learning and better
+                                performance.
+                            </p>
+
+                            <!-- Features List -->
+                            <div class="space-y-2 mb-4">
+                                <div class="flex items-center gap-2 text-xs text-base-content/70">
+                                    <span class="material-icons text-xs text-success">check_circle</span>
+                                    <span>All Version 1 features</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-xs text-base-content/70">
+                                    <span class="material-icons text-xs text-warning">add_circle</span>
+                                    <span>Curiosity-driven exploration</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-xs text-base-content/70">
+                                    <span class="material-icons text-xs text-warning">add_circle</span>
+                                    <span>Intrinsic motivation rewards</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-xs text-base-content/70">
+                                    <span class="material-icons text-xs text-warning">add_circle</span>
+                                    <span>Potential-based reward shaping</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer Section -->
+                        <div class="border-t border-base-300 px-6 py-4">
+                            <button class="w-full btn btn-secondary btn-sm mb-2">
+                                <span class="material-icons text-sm">download</span>
+                                Download
+                            </button>
+                            <p class="text-xs text-base-content/50 text-center">Python • 135KB</p>
+                        </div>
+                    </div>
+
+                    <!-- Version 3 -->
+                    <div
+                        class="card bg-base-100 shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-accent hover:border-accent/80 overflow-hidden h-full flex flex-col">
+                        <!-- Header Section -->
+                        <div class="bg-accent/5 px-6 py-4 border-b border-accent/20">
+                            <div class="flex justify-between items-center mb-3">
+                                <h3 class="text-lg font-bold text-accent">Version 3</h3>
+                                <div class="badge badge-accent badge-lg font-mono font-bold">v3.0</div>
+                            </div>
+                            <div class="flex justify-center mb-2">
+                                <div class="p-3 bg-accent/10 rounded-lg">
+                                    <span class="material-icons text-3xl text-accent">analytics</span>
+                                </div>
+                            </div>
+                            <p class="text-center font-semibold text-accent">Professional Edition</p>
+                        </div>
+
+                        <!-- Content Section -->
+                        <div class="px-6 py-4 flex-grow">
+                            <p class="text-sm text-base-content/70 mb-4 text-center leading-relaxed">
+                                Complete implementation with performance metrics, optimized learning, and comprehensive
+                                visualization.
+                            </p>
+
+                            <!-- Features List -->
+                            <div class="space-y-2 mb-4">
+                                <div class="flex items-center gap-2 text-xs text-base-content/70">
+                                    <span class="material-icons text-xs text-success">check_circle</span>
+                                    <span>All Version 2 features</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-xs text-base-content/70">
+                                    <span class="material-icons text-xs text-error">star</span>
+                                    <span>Performance metrics dashboard</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-xs text-base-content/70">
+                                    <span class="material-icons text-xs text-error">star</span>
+                                    <span>Graph-based pathfinding</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-xs text-base-content/70">
+                                    <span class="material-icons text-xs text-error">star</span>
+                                    <span>Real-time statistics & graphs</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer Section -->
+                        <div class="border-t border-base-300 px-6 py-4">
+                            <button class="w-full btn btn-accent btn-sm mb-2">
+                                <span class="material-icons text-sm">download</span>
+                                Download
+                            </button>
+                            <p class="text-xs text-base-content/50 text-center">Python • 150KB</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bundle Section -->
+                <div class="flex justify-center mt-12">
+                    <div class="card bg-base-100 border-2 border-base-300 max-w-md w-full">
+                        <div class="card-body text-center py-6">
+                            <h4 class="font-bold text-lg text-base-content mb-2">Want all versions?</h4>
+                            <p class="text-base-content/70 text-sm mb-4">Download the complete bundle with all three
+                                versions and comparison guide.</p>
+                            <button class="btn btn-outline btn-primary btn-sm">
+                                <span class="material-icons text-sm">folder_zip</span>
+                                Download Complete Bundle
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer footer-center bg-base-200 text-base-content p-10 border-t border-base-300">
+        <div class="max-w-6xl">
+            <div class="flex items-center justify-center gap-2 mb-3">
+                <p class="text-xs opacity-60">Learn Reinforcement Learning through interactive simulations and real-time
+                    visualization</p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

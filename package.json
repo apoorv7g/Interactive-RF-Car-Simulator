@@ -1,0 +1,25 @@
+{
+  "name": "interactive-rf-car-simulator",
+  "version": "1.0.0",
+  "description": "An interactive simulator where users design obstacle maps and an AI-driven car learns to reach the goal, making RL intuitive and engaging.",
+  "scripts": {
+    "build:css": "npx @tailwindcss/cli -i app.css -o output.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apoorv7g/Interactive-RF-Car-Simulator.git"
+  },
+  "author": "",
+  "license": "MIT License",
+  "bugs": {
+    "url": "https://github.com/apoorv7g/Interactive-RF-Car-Simulator/issues"
+  },
+  "homepage": "https://github.com/apoorv7g/Interactive-RF-Car-Simulator#readme",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.14",
+    "tailwindcss": "^4.1.14"
+  },
+  "devDependencies": {
+    "daisyui": "^5.3.7"
+  }
+}

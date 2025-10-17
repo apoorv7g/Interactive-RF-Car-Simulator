@@ -1,3 +1,13 @@
+# ============================================================
+# RL CAR SIMULATOR 
+# ------------------------------------------------------------
+# Interactive environment for visualizing Q-learning applied
+# to a grid-based navigation task with user-defined obstacles,
+# paths, start/goal positions, and live training.
+# Author - Apoorv Gadiya (https://apoorv7g.github.io/portfolio/)
+# Date - October 25
+# ============================================================
+
 import pygame, sys, numpy as np, random
 
 # CONFIG
